@@ -3,6 +3,7 @@ package net.corda.testing.core
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.whenever
+import net.corda.core.CordaInternal
 import net.corda.core.internal.staticField
 import net.corda.core.serialization.internal.SerializationEnvironment
 import net.corda.core.serialization.internal.effectiveSerializationEnv
@@ -36,8 +37,8 @@ class SerializationEnvironmentRule(private val inheritable: Boolean = false) : T
             }
         }
 
-        /** Do not call, instead use [SerializationEnvironmentRule] as a [org.junit.Rule]. */
-        fun <T> run(taskLabel: String, task: (SerializationEnvironment) -> T): T {
+        @CordaInternal
+        fun <T> runTask(task: (SerializationEnvironment) -> T): T {
             return SerializationEnvironmentRule().apply { init() }.runTask(task)
         }
     }
